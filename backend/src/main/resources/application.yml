@@ -1,0 +1,75 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: combine-auditorium
+  
+  # Database Configuration
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/combine_auditorium?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  
+  # Redis Configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000ms
+      
+  # Flyway Configuration
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    clean-disabled: true
+
+  # HTTP Encoding Configuration
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+
+# MyBatis Plus Configuration
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # Print SQL to console
+
+# MinIO Configuration (Custom)
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: auditorium-files
+
+# FFmpeg Configuration
+ffmpeg:
+  path: D:\\ffmpeg-2025-11-17-git-e94439e49b-full_build\\bin\\ffmpeg.exe # 如果未配置环境变量，请在此处填写绝对路径
+
+# Google Generative AI Configuration
+google:
+  ai:
+    api-key: ${GOOGLE_AI_API_KEY:sk-akp}
+    model: gemini-3-pro-preview
+    base-url: ${GOOGLE_AI_BASE_URL:http://127.0.0.1:8889}
+
+live:
+  srs:
+    # Optional whitelist, comma separated IPs for SRS callbacks. Empty allows all (dev).
+    allowed-ips: ""
+
+
+# Logging
+logging:
+  level:
+    com.combine.auditorium: DEBUG

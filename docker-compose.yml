@@ -1,0 +1,74 @@
+
+services:
+  # 1. 数据库服务
+  mysql:
+    image: mysql:8.0
+    container_name: ca-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: combine_auditorium
+      MYSQL_TIME_ZONE: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - ca-network
+
+  # 2. 缓存服务
+  redis:
+    image: redis:7.0
+    container_name: ca-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis/data:/data
+    command: redis-server --appendonly yes
+    restart: always
+    networks:
+      - ca-network
+
+  # 3. 对象存储服务 (文件上传)
+  minio:
+    image: minio/minio
+    container_name: ca-minio
+    ports:
+      - "9000:9000"  # API 端口
+      - "9001:9001"  # Console 管理后台端口
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - ./docker/minio/data:/data
+    command: server /data --console-address ":9001"
+    restart: always
+    networks:
+      - ca-network
+
+  # 4. 流媒体服务器 (直播)
+  srs:
+    image: ossrs/srs:5
+    container_name: ca-srs
+    ports:
+      - "1935:1935"  # RTMP 推流端口
+      - "1985:1985"  # HTTP API 端口
+      - "8080:8080"  # HTTP-FLV/HLS 拉流端口
+      - "8000:8000/udp" # WebRTC 媒体传输端口
+    environment:
+      # 如果在云服务器部署，这里填写公网IP。本地开发通常无需修改或填 127.0.0.1
+      CANDIDATE: 127.0.0.1 
+    volumes:
+      - ./docker/srs/conf/srs.conf:/usr/local/srs/conf/docker.conf
+    command: ./objs/srs -c conf/docker.conf
+    restart: always
+    networks:
+      - ca-network
+
+networks:
+  ca-network:
+    driver: bridge
+
+

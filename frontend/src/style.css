@@ -1,0 +1,51 @@
+:root {
+  --netflix-red: #e50914;
+  --netflix-black: #141414;
+  --netflix-gray: #808080;
+  --text-white: #fff;
+}
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--netflix-black);
+  color: var(--text-white);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 覆盖 Element Plus 默认样式以适应黑色主题 */
+.el-input__wrapper {
+  background-color: #333 !important;
+  box-shadow: none !important;
+  border: 1px solid #333;
+}
+.el-input__inner {
+  color: #fff !important;
+}
+
+.el-button--primary {
+  background-color: var(--netflix-red) !important;
+  border-color: var(--netflix-red) !important;
+}
+.el-button--primary:hover {
+  background-color: #f40612 !important;
+}
