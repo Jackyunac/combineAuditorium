@@ -62,6 +62,7 @@ google:
     api-key: ${GOOGLE_AI_API_KEY:sk-akp}
     model: gemini-3-pro-preview
     base-url: ${GOOGLE_AI_BASE_URL:http://127.0.0.1:8889}
+    embedding-model: ${GOOGLE_AI_EMBEDDING_MODEL:embedding-001}
 
 live:
   srs:
@@ -73,3 +74,18 @@ live:
 logging:
   level:
     com.combine.auditorium: DEBUG
+
+# 关闭本地AI实现，改用远程ai-service
+ai:
+  local:
+    enabled: false
+  service:
+    url: ${AI_SERVICE_URL:http://localhost:8082}
+
+# 向量库（pgvector）数据源，可选配置；未配置则不启用 RAG
+vector:
+  datasource:
+    url: ${VECTOR_DB_URL:}
+    username: ${VECTOR_DB_USERNAME:}
+    password: ${VECTOR_DB_PASSWORD:}
+    table: ${VECTOR_DB_TABLE:kb_vectors}

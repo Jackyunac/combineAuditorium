@@ -1,0 +1,24 @@
+.idea/
+.vscode/
+dev/
+
+# Build outputs
+**/target/
+**/node_modules/
+frontend/dist/
+*.log
+*.class
+*.iml
+
+# Runtime data
+docker/mysql/data/
+docker/minio/data/
+docker/redis/data/
+docker/srs/data/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Env/config
+.env

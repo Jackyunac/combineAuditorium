@@ -6,10 +6,12 @@
           <span class="brand-text">Lips</span>
         </div>
         <ul class="nav-links" v-if="userStore.token">
-          <li :class="{ active: $route.path === '/' }"><router-link to="/">首页</router-link></li>
+          <li :class="{ active: $route.path === '/' || $route.path === '/home' }"><router-link to="/">首页</router-link></li>
           <li :class="{ active: $route.path.startsWith('/videos') }"><router-link to="/videos">视频库</router-link></li>
           <li :class="{ active: $route.path.startsWith('/live') }"><router-link to="/live">直播</router-link></li>
           <li :class="{ active: $route.path.startsWith('/conference') }"><router-link to="/conference">会议</router-link></li>
+          <li :class="{ active: $route.path.startsWith('/forum') }"><router-link to="/forum">论坛</router-link></li>
+          <li v-if="userStore.userInfo?.role === 'SYSTEM'" :class="{ active: $route.path.startsWith('/ai-config') }"><router-link to="/ai-config">AI配置</router-link></li>
         </ul>
       </div>
 
@@ -120,7 +122,7 @@ onUnmounted(() => {
 .brand-text {
   font-family: 'Great Vibes', cursive;
   font-size: 45px;
-  color: #e50914; /* Netflix Red */
+  color: #e50914;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1;
   padding-bottom: 5px;
@@ -187,7 +189,6 @@ onUnmounted(() => {
   width: 150px;
 }
 
-/* 修复：添加透明伪元素填补头像与菜单之间的空隙，防止鼠标移动时菜单消失 */
 .dropdown-menu::before {
   content: '';
   position: absolute;

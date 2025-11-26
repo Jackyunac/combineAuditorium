@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: ai-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${AI_DB_URL:jdbc:mysql://localhost:3306/ai_service?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${AI_DB_USERNAME:root}
+    password: ${AI_DB_PASSWORD:root}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    clean-disabled: true
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+google:
+  ai:
+    api-key: ${GOOGLE_AI_API_KEY:sk-akp}
+    model: ${GOOGLE_AI_MODEL:gemini-3-pro-preview}
+    base-url: ${GOOGLE_AI_BASE_URL:http://127.0.0.1:8889}
+    embedding-model: ${GOOGLE_AI_EMBEDDING_MODEL:embedding-001}
+
+vector:
+  datasource:
+    url: ${VECTOR_DB_URL:}
+    username: ${VECTOR_DB_USERNAME:}
+    password: ${VECTOR_DB_PASSWORD:}
+    table: ${VECTOR_DB_TABLE:kb_vectors}

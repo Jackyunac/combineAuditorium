@@ -33,14 +33,14 @@
               <div v-if="msg.type === 'danmu'" class="content">{{ msg.content }}</div>
               <div v-else class="content gift">
                 送出 {{ msg.giftCount || 1 }} × {{ renderGiftName(msg.giftType) }}
-                <span v-if="msg.message" class="gift-note">“{{ msg.message }}”</span>
+                <span v-if="msg.message" class="gift-note">“{{ msg.message }}�?/span>
               </div>
             </div>
           </div>
         </div>
         <div class="chat-input">
-          <input v-model="danmuInput" placeholder="发一条弹幕..." @keyup.enter="sendDanmuMessage" />
-          <button @click="sendDanmuMessage">发送</button>
+          <input v-model="danmuInput" placeholder="发一条弹�?.." @keyup.enter="sendDanmuMessage" />
+          <button @click="sendDanmuMessage">发�?/button>
         </div>
         <div class="gift-panel">
           <div v-for="gift in giftOptions" :key="gift.type" class="gift-card">
@@ -71,7 +71,7 @@
           <div class="value">{{ roomInfo.roomCode }}?secret={{ roomInfo.streamKey }}</div>
         </div>
         <div class="status-indicator">
-          状态: <span :class="{ active: roomInfo.status === 1 }">{{ roomInfo.status === 1 ? '直播中' : '未开播' }}</span>
+          状�? <span :class="{ active: roomInfo.status === 1 }">{{ roomInfo.status === 1 ? '直播�? : '未开�? }}</span>
         </div>
       </div>
     </div>
@@ -112,7 +112,7 @@ const chatBox = ref<HTMLDivElement | null>(null)
 const socket = ref<WebSocket | null>(null)
 const giftOptions = [
   { label: '点赞', type: 'like', count: 1 },
-  { label: '荧光棒', type: 'glowstick', count: 5 },
+  { label: '荧光�?, type: 'glowstick', count: 5 },
   { label: '火箭', type: 'rocket', count: 1 }
 ]
 
@@ -128,7 +128,7 @@ onMounted(async () => {
     connectWebSocket()
   } catch (e: any) {
     console.error(e)
-    ElMessage.error(e?.message || '加载直播间失败')
+    ElMessage.error(e?.message || '加载直播间失�?)
   }
 })
 
@@ -184,14 +184,14 @@ const connectWebSocket = () => {
       } else if (data.type === 'gift' && data.data) {
         pushMessage({ ...data.data, type: 'gift' })
       } else if (data.type === 'error') {
-        ElMessage.error(data.message || '发送失败')
+        ElMessage.error(data.message || '发送失�?)
       }
     } catch (err) {
       console.warn('解析消息失败', err)
     }
   }
   ws.onerror = () => {
-    ElMessage.warning('弹幕通道连接失败，请确认已登录')
+    ElMessage.warning('��δ���ӵ�Ļͨ�����Ժ�����')
   }
   ws.onclose = () => {
     socket.value = null
@@ -223,7 +223,7 @@ const sendDanmuMessage = async () => {
       const data: any = await sendDanmuApi(roomCode, text)
       pushMessage({ ...data, type: 'danmu' })
     } catch (e) {
-      ElMessage.error('发送弹幕失败')
+      ElMessage.error('���͵�Ļʧ��')
     }
   }
   danmuInput.value = ''
@@ -237,7 +237,7 @@ const sendGift = async (gift: { type: string; count: number }) => {
       const data: any = await sendGiftApi(roomCode, { giftType: gift.type, giftCount: gift.count })
       pushMessage({ ...data, type: 'gift' })
     } catch (e) {
-      ElMessage.warning('尚未连接弹幕通道，稍后重试')
+      ElMessage.warning('��δ���ӵ�Ļͨ�����Ժ�����')
     }
   }
 }
@@ -250,7 +250,7 @@ const formatTime = (time?: string) => {
 
 const renderGiftName = (giftType?: string) => {
   if (!giftType) return '礼物'
-  const map: Record<string, string> = { like: '点赞', glowstick: '荧光棒', rocket: '火箭' }
+  const map: Record<string, string> = { like: '点赞', glowstick: '荧光�?, rocket: '火箭' }
   return map[giftType] || giftType
 }
 
@@ -486,3 +486,4 @@ onUnmounted(() => {
   font-weight: bold;
 }
 </style>
+

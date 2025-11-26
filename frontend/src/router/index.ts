@@ -61,6 +61,16 @@ const router = createRouter({
           component: () => import('../views/ConferenceView.vue')
         },
         {
+          path: 'ai-config',
+          name: 'ai-config',
+          component: () => import('../views/AIConfig.vue')
+        },
+        {
+          path: 'forum',
+          name: 'forum',
+          component: () => import('../views/ForumView.vue')
+        },
+        {
           path: 'profile',
           name: 'profile',
           component: () => import('../views/UserProfile.vue')

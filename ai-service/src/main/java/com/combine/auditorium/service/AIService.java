@@ -11,7 +11,6 @@ import com.google.genai.types.Part;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,6 @@ import com.combine.auditorium.service.RagService;
 
 @Slf4j
 @Service
-@ConditionalOnProperty(name = "ai.local.enabled", havingValue = "true")
 public class AIService {
 
     private final AIPromptConfig promptConfig;

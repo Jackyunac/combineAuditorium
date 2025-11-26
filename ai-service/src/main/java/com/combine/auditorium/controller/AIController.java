@@ -1,0 +1,45 @@
+package com.combine.auditorium.controller;
+
+import com.combine.auditorium.common.Result;
+import com.combine.auditorium.entity.AIConfig;
+import com.combine.auditorium.service.AIConfigService;
+import com.combine.auditorium.service.AIService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@Slf4j
+@RestController
+@RequestMapping("/api/ai")
+@RequiredArgsConstructor
+public class AIController {
+
+    private final AIConfigService aiConfigService;
+    private final AIService aiService;
+
+    @PostMapping(value = "/chat", produces = "application/json;charset=UTF-8")
+    public Result<String> chat(@RequestBody Map<String, String> body) {
+        try {
+            String message = body.get("message");
+            log.info("Received chat request");
+            String response = aiService.chat(message);
+            return Result.success(response);
+        } catch (Exception e) {
+            log.error("Error in chat endpoint", e);
+            return Result.error("AI 服务异常: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/config")
+    public Result<AIConfig> getConfig() {
+        return Result.success(aiConfigService.getConfig());
+    }
+
+    @PostMapping("/config")
+    public Result<AIConfig> updateConfig(@RequestBody AIConfig config) {
+        // 鉴权由上游网关负责
+        return Result.success(aiConfigService.updateConfig(config));
+    }
+}

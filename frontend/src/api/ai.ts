@@ -8,3 +8,18 @@ export const chatWithAI = (message: string) => {
   })
 }
 
+export const getAIConfig = () => {
+  return request({
+    url: '/ai/config',
+    method: 'get'
+  })
+}
+
+export const updateAIConfig = (data: { temperature?: number; topK?: number; knowledgeLimit?: number }) => {
+  return request({
+    url: '/ai/config',
+    method: 'post',
+    data
+  })
+}
+
