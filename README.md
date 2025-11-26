@@ -18,5 +18,5 @@
 
 其他：
   该项目开发的目的主要是用于个人学习以及比较各大模型code能力
-  前端代码为cusrsor中使用gemini3.0辅助开发
+  前端代码为cursor中使用gemini3.0辅助开发
   后端代码为cursor+claude sonnet 4.5构建基础框架，后采用gpt5.1-codex-max模型，vibe coding的开发模式。
