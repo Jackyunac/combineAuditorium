@@ -5,7 +5,7 @@
 技术栈：
 - Backend: Java 17、Spring Boot 3、MyBatis-Plus、Redis、MySQL、MinIO、WebSocket、Knife4j、FFmpeg 工具链
 - Frontend: Vue 3、TypeScript、Vite、Pinia、Vue Router、Element Plus
-- Infra: Docker Compose 启动 MySQL、Redis、MinIO、SRS
+- 大模型相关： 使用google官方sdk，通过反向代理链接gemini3提供对话功能，并进行了基础的提示词工程，如你想使用此模块，需要恢复baseUrl默认值并配置你的apiKey
 
 目录结构：
 - `backend/` 后端服务源代码
