@@ -22,7 +22,7 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     private final Optional<RagService> ragService;
 
     @Override
-    public KnowledgeArticle create(KnowledgeArticle article, Long userId) {
+    public KnowledgeArticle create(KnowledgeArticle article) {
         if (article.getTitle() == null || article.getTitle().trim().isEmpty()) {
             throw new RuntimeException("标题不能为空");
         }
@@ -32,11 +32,11 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         article.setCreatedAt(LocalDateTime.now());
         article.setUpdatedAt(LocalDateTime.now());
         knowledgeArticleMapper.insert(article);
-        // 索引到向量库
+        // 索引到向量库（可选）
         try {
             ragService.ifPresent(r -> r.indexArticle(article));
         } catch (Exception e) {
-            // 吞掉异常避免影响主流程
+            // 吃掉异常避免影响主流程
         }
         return article;
     }
@@ -66,7 +66,8 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         knowledgeArticleMapper.deleteById(id);
         try {
             ragService.ifPresent(r -> r.deleteArticle(id));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     private int normalizeLimit(int limit) {

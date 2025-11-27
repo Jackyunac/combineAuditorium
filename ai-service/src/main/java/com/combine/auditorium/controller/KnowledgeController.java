@@ -3,12 +3,10 @@ package com.combine.auditorium.controller;
 import com.combine.auditorium.common.Result;
 import com.combine.auditorium.entity.KnowledgeArticle;
 import com.combine.auditorium.service.KnowledgeService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/knowledge")
@@ -18,10 +16,8 @@ public class KnowledgeController {
     private final KnowledgeService knowledgeService;
 
     @PostMapping
-    public Result<KnowledgeArticle> create(@RequestBody KnowledgeArticle article, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
-        if (userId == null) return Result.error(401, "Unauthorized");
-        return Result.success(knowledgeService.create(article, userId));
+    public Result<KnowledgeArticle> create(@RequestBody KnowledgeArticle article) {
+        return Result.success(knowledgeService.create(article));
     }
 
     @GetMapping

@@ -2,7 +2,10 @@ package com.combine.auditorium.controller;
 
 import com.combine.auditorium.client.AiClient;
 import com.combine.auditorium.common.Result;
+import com.combine.auditorium.common.RoleConstants;
 import com.combine.auditorium.entity.KnowledgeArticle;
+import com.combine.auditorium.entity.User;
+import com.combine.auditorium.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +18,16 @@ import java.util.List;
 public class KnowledgeController {
 
     private final AiClient aiClient;
+    private final UserService userService;
 
     @PostMapping
     public Result<KnowledgeArticle> create(@RequestBody KnowledgeArticle article, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         if (userId == null) return Result.error(401, "Unauthorized");
+        User user = userService.getById(userId);
+        if (user == null || !RoleConstants.SYSTEM.equals(user.getRole())) {
+            return Result.error(403, "Permission denied");
+        }
         return aiClient.createKnowledge(article);
     }
 
@@ -31,7 +39,13 @@ public class KnowledgeController {
     }
 
     @DeleteMapping("/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        if (userId == null) return Result.error(401, "Unauthorized");
+        User user = userService.getById(userId);
+        if (user == null || !RoleConstants.SYSTEM.equals(user.getRole())) {
+            return Result.error(403, "Permission denied");
+        }
         return aiClient.deleteKnowledge(id);
     }
 }

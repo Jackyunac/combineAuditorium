@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface KnowledgeService {
 
-    KnowledgeArticle create(KnowledgeArticle article, Long userId);
+    KnowledgeArticle create(KnowledgeArticle article);
 
     List<KnowledgeArticle> search(String keyword, String tag, int limit);
 
